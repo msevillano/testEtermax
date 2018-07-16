@@ -96,4 +96,23 @@ public class CharacterTest {
         pj.dealDmg(target, 100);
         Assert.assertEquals(950, target.getHealth());
     }
+
+    @Test(expected = Character.InvalidTargetException.class)
+    public void testAttackOutOfRangeMelee() throws Character.InvalidTargetException {
+        Character pj = new Character();
+        Character target = new Character();
+        target.setPosition(2, 2);
+
+        pj.dealDmg(target, 100);
+    }
+
+    @Test(expected = Character.InvalidTargetException.class)
+    public void testAttackOutOfRangeRanged() throws Character.InvalidTargetException {
+        Character pj = new Character();
+        Character target = new Character();
+        pj.setRange(RANGED);
+        target.setPosition(15, 15);
+
+        pj.dealDmg(target, 100);
+    }
 }
