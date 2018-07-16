@@ -14,7 +14,7 @@ public class CharacterTest {
     }
 
     @Test
-    public void testDamageCharacter() {
+    public void testDamageCharacter() throws Character.InvalidTargetException {
         Character pj = new Character();
         Character target = new Character();
 
@@ -23,7 +23,7 @@ public class CharacterTest {
     }
 
     @Test
-    public void testKillCharacter(){
+    public void testKillCharacter() throws Character.InvalidTargetException {
         Character pj = new Character();
         Character target = new Character();
 
@@ -59,5 +59,41 @@ public class CharacterTest {
 
         pj.dealDmg(target, 1457);
         target.dealHeal(target, 200);
+    }
+
+    @Test (expected = Character.InvalidTargetException.class)
+    public void testSelfDamage() throws Character.InvalidTargetException {
+        Character pj = new Character();
+
+        pj.dealDmg(pj, 457);
+    }
+
+    @Test (expected = Character.InvalidTargetException.class)
+    public void testHealEnemy() throws Character.InvalidTargetException {
+        Character pj = new Character();
+        Character target = new Character();
+
+        pj.dealDmg(target, 1457);
+        pj.dealHeal(target, 200);
+    }
+
+    @Test
+    public void testDamageCharacterHigherLevel() throws Character.InvalidTargetException {
+        Character pj = new Character();
+        Character target = new Character();
+
+        pj.setLevel(6);
+        pj.dealDmg(target, 100);
+        Assert.assertEquals(850, target.getHealth());
+    }
+
+    @Test
+    public void testDamageCharacterLowerLevel() throws Character.InvalidTargetException {
+        Character pj = new Character();
+        Character target = new Character();
+
+        target.setLevel(6);
+        pj.dealDmg(target, 100);
+        Assert.assertEquals(950, target.getHealth());
     }
 }
